@@ -14,6 +14,7 @@ import com.javaweb.model.ErrorResponseDTO;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+	
 	@ExceptionHandler(FieldRequiredException.class)
 	public ResponseEntity<Object> handleFieldRequiredException(FieldRequiredException ex,WebRequest wb){
 		ErrorResponseDTO error= new ErrorResponseDTO();
@@ -23,5 +24,6 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		error.setDetail(list);
 		return new ResponseEntity<>(error, HttpStatus.BAD_GATEWAY );
 	} 
+	
 	
 }

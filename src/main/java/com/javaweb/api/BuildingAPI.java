@@ -24,12 +24,12 @@ public class BuildingAPI {
 		return result;
 	}
 	
-//	public void validData(BuildingDTO building) {
-//		if(building.getName()== null || building.getName().equals("")) {
-//			throw new FieldRequiredException("FieldRequiredException");
-//		}
-//		
-//	}
+	public void validData(BuildingDTO building) {
+		if(building.getName()== null || building.getName().equals("")) {
+			throw new FieldRequiredException("FieldRequiredException");
+		}
+		
+	}
 
 	
 //	@GetMapping(value="/api/building/")
