@@ -1,18 +1,25 @@
 package com.javaweb.reponsitory.entity;
 
 public class BuildingEntity {
+	private Long id;
 	private String name;
 	private String ward;
 	private String street;
-	private String district;
-	private Long numberOfBasement;
-	private String nameOfManager;
-	private String phoneOfManager;
-	private Long floorArea;
-	private Long rentPrice;
-	private Long serviceFee;
-	private Long brokerageFee;
-	private String rentArea;
+	private Long districtid;
+	private Long numberofbasement;
+	private String managername;
+	private String managerphonenumber;
+	private Long floorarea;
+	private Long rentprice;
+	private Long servicefee;
+	private Long brokeragefee;
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -31,61 +38,53 @@ public class BuildingEntity {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	public String getDistrict() {
-		return district;
+	public Long getDistrictid() {
+		return districtid;
 	}
-	public void setDistrict(String district) {
-		this.district = district;
+	public void setDistrictid(Long districtid) {
+		this.districtid = districtid;
 	}
-	public Long getNumberOfBasement() {
-		return numberOfBasement;
+	public Long getNumberofbasement() {
+		return numberofbasement;
 	}
-	public void setNumberOfBasement(Long numberOfBasement) {
-		this.numberOfBasement = numberOfBasement;
+	public void setNumberofbasement(Long numberofbasement) {
+		this.numberofbasement = numberofbasement;
 	}
-	public String getNameOfManager() {
-		return nameOfManager;
+	public String getManagername() {
+		return managername;
 	}
-	public void setNameOfManager(String nameOfManager) {
-		this.nameOfManager = nameOfManager;
+	public void setManagername(String managername) {
+		this.managername = managername;
 	}
-	public String getPhoneOfManager() {
-		return phoneOfManager;
+	public String getManagerphonenumber() {
+		return managerphonenumber;
 	}
-	public void setPhoneOfManager(String phoneOfManager) {
-		this.phoneOfManager = phoneOfManager;
+	public void setManagerphonenumber(String managerphonenumber) {
+		this.managerphonenumber = managerphonenumber;
 	}
-	public Long getFloorArea() {
-		return floorArea;
+	public Long getFloorarea() {
+		return floorarea;
 	}
-	public void setFloorArea(Long floorArea) {
-		this.floorArea = floorArea;
+	public void setFloorarea(Long floorarea) {
+		this.floorarea = floorarea;
 	}
-	public Long getRentPrice() {
-		return rentPrice;
+	public Long getRentprice() {
+		return rentprice;
 	}
-	public void setRentPrice(Long rentPrice) {
-		this.rentPrice = rentPrice;
+	public void setRentprice(Long rentprice) {
+		this.rentprice = rentprice;
 	}
-	public Long getServiceFee() {
-		return serviceFee;
+	public Long getServicefee() {
+		return servicefee;
 	}
-	public void setServiceFee(Long serviceFee) {
-		this.serviceFee = serviceFee;
+	public void setServicefee(Long servicefee) {
+		this.servicefee = servicefee;
 	}
-	public Long getBrokerageFee() {
-		return brokerageFee;
+	public Long getBrokeragefee() {
+		return brokeragefee;
 	}
-	public void setBrokerageFee(Long brokerageFee) {
-		this.brokerageFee = brokerageFee;
+	public void setBrokeragefee(Long brokeragefee) {
+		this.brokeragefee = brokeragefee;
 	}
-	public String getRentArea() {
-		return rentArea;
-	}
-	public void setRentArea(String rentArea) {
-		this.rentArea = rentArea;
-	}
-	
-	
 	
 }

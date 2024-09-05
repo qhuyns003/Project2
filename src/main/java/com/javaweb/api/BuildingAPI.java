@@ -1,6 +1,7 @@
 package com.javaweb.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,9 @@ public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
 	@GetMapping(value = "/api/building/")
-	public Object getBuilding(@RequestBody SearchingDTO building) {
-		ArrayList<BuildingDTO> result = buildingService.findAll(building);
+	public Object getBuilding(@RequestParam HashMap<String,String> building,
+								@RequestParam(value="typecode",required = false) ArrayList<String> type) {
+		ArrayList<BuildingDTO> result = buildingService.findAll(building,type);
 		return result;
 	}
 	

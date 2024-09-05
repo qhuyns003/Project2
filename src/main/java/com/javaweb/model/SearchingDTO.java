@@ -1,5 +1,8 @@
 package com.javaweb.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchingDTO {
 	private String name;
 	private Long floorArea;
@@ -16,7 +19,7 @@ public class SearchingDTO {
 	private String nameOfManager;
 	private String phoneOfManager;
 	private String employee;
-	private String[] typeOfBuilding;
+//	private List<String> typeOfBuilding;
 	public String getName() {
 		return name;
 	}
@@ -107,11 +110,12 @@ public class SearchingDTO {
 	public void setEmployee(String employee) {
 		this.employee = employee;
 	}
-	public String[] getTypeOfBuilding() {
-		return typeOfBuilding;
-	}
-	public void setTypeOfBuilding(String[] typeOfBuilding) {
-		this.typeOfBuilding = typeOfBuilding;
-	}
+//	public List<String> getTypeOfBuilding() {
+//		return typeOfBuilding;
+//	}
+//	public void setTypeOfBuilding(ArrayList<String> typeOfBuilding) {
+//		this.typeOfBuilding = typeOfBuilding;
+//	}
+//	
 	
 }
