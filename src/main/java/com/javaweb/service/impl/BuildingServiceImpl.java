@@ -29,7 +29,7 @@ public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private BuildingConvertor buildingConvertor;
 	@Override
-	public ArrayList<BuildingDTO> findAll(HashMap<String,String> building,ArrayList<String> type) {
+	public ArrayList<BuildingDTO> findAll(HashMap<String,Object> building,ArrayList<String> type) {
 		ArrayList<BuildingEntity> buildingEntities = buildingRepository.findAll(building,type);
 		ArrayList<BuildingDTO> result = new ArrayList<>();
 		for(BuildingEntity item : buildingEntities) {

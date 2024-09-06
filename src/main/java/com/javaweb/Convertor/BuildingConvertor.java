@@ -3,6 +3,7 @@ package com.javaweb.Convertor;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,21 +22,16 @@ public class BuildingConvertor {
 	private DistrictRepository districtRepository;
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public BuildingDTO buildingConvertor(BuildingEntity item){
-		BuildingDTO bd = new BuildingDTO();
+		BuildingDTO bd = modelMapper.map(item , BuildingDTO.class);
 		DistrictEntity district = districtRepository.findById(item.getDistrictid());
 		bd.setAddress(item.getStreet()+", "+item.getWard()+", "+district.getName());
-		bd.setBrokeragefee(item.getBrokeragefee());
-		bd.setFloorarea(item.getFloorarea());
-		bd.setManagername(item.getManagername());
-		bd.setManagerphonenumber(item.getManagerphonenumber());
-		bd.setName(item.getName());
-		bd.setNumberofbasement(item.getNumberofbasement());
 		ArrayList<RentAreaEntity> rentarea = rentAreaRepository.findById(item.getId());
 		bd.setRentarea(rentarea.stream().map(it -> it.getValue().toString()).collect(Collectors.joining(",")));
-		bd.setRentprice(item.getRentprice());
-		bd.setServicefee(item.getServicefee());
+		
 		return bd;
 	}
 }

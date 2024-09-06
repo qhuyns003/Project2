@@ -22,14 +22,14 @@ import com.javaweb.utils.StringUtil;
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository{
 	
-	public static void joinTable(HashMap<String,String> building,ArrayList<String> type,StringBuilder sql) {
-		if(StringUtil.checkString(building.get("staffid"))) {
+	public static void joinTable(HashMap<String,Object> building,ArrayList<String> type,StringBuilder sql) {
+		if(StringUtil.checkString((String)building.get("staffid"))) {
 			sql.append(" inner join assignmentbuilding on building.id = assignmentbuilding.buildingid  ");
 		};
-		if(StringUtil.checkString(building.get("districtid"))) {
+		if(StringUtil.checkString((String)building.get("districtid"))) {
 			sql.append(" inner join district on building.districtid = district.id ");
 		};
-		if(StringUtil.checkString(building.get("areaFrom")) || StringUtil.checkString(building.get("areaTo"))) {
+		if(StringUtil.checkString((String)building.get("areaFrom")) || StringUtil.checkString((String)building.get("areaTo"))) {
 			sql.append(" inner join rentarea on rentarea.buildingid=building.id  ");
 		};
 		if(type != null || (type != null && type.size() ==0 )) {
@@ -38,11 +38,11 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 		};
 		
 	};
-	public static void querryNormal(HashMap<String,String> building,ArrayList<String> type,StringBuilder sql) {
-		for(Map.Entry<String, String > it : building.entrySet()) {
+	public static void querryNormal(HashMap<String,Object> building,ArrayList<String> type,StringBuilder sql) {
+		for(Map.Entry<String, Object > it : building.entrySet()) {
 			if( !it.getKey().equals("staffid") &&!it.getKey().equals("typecode") &&!it.getKey().startsWith("area")
 					&&!it.getKey().startsWith("price")) {
-				if(StringUtil.checkString(it.getValue())) {
+				if(StringUtil.checkString((String)it.getValue())) {
 					if(NumberUtil.checkNumber(it.getKey())) {
 						sql.append(" and building."+it.getKey()+" = "+it.getValue());
 					}
@@ -54,20 +54,20 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 		}
 	};
 	
-	public static void querrySpecial(HashMap<String,String> building,ArrayList<String> type,StringBuilder sql) {
-		if(StringUtil.checkString(building.get("staffid"))) {
+	public static void querrySpecial(HashMap<String,Object> building,ArrayList<String> type,StringBuilder sql) {
+		if(StringUtil.checkString((String)building.get("staffid"))) {
 			sql.append(" and assignment.staffid = "+building.get("staffid"));
 		};
-		if(StringUtil.checkString(building.get("priceFrom"))) {
+		if(StringUtil.checkString((String)building.get("priceFrom"))) {
 			sql.append(" and building.price >= "+building.get("priceFrom"));
 		};
-		if(StringUtil.checkString(building.get("priceTo"))) {
+		if(StringUtil.checkString((String)building.get("priceTo"))) {
 			sql.append(" and building.price <= "+building.get("priceTo"));
 		};
-		if(StringUtil.checkString(building.get("areaFrom"))) {
+		if(StringUtil.checkString((String)building.get("areaFrom"))) {
 			sql.append(" and rentarea.value >= "+building.get("areaFrom"));
 		};
-		if(StringUtil.checkString(building.get("areaTo"))) {
+		if(StringUtil.checkString((String)building.get("areaTo"))) {
 			sql.append(" and rentarea.value <= "+building.get("areaTo"));
 		};
 		if(type != null && type.size()!=0) {
@@ -78,7 +78,7 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 		
 	}
 	@Override
-	public ArrayList<BuildingEntity> findAll(HashMap<String,String> building,ArrayList<String> type) {
+	public ArrayList<BuildingEntity> findAll(HashMap<String,Object> building,ArrayList<String> type) {
 		StringBuilder sql = new StringBuilder("select building.id,building.name,building.districtid, building.ward, building.street, building.numberofbasement, building.managername, building.managerphonenumber, building.floorarea, building.rentprice, building.servicefee,building.brokeragefee from building ");
 		
 		ArrayList<BuildingEntity> result = new ArrayList<>();

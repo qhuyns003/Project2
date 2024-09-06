@@ -21,7 +21,7 @@ public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
 	@GetMapping(value = "/api/building/")
-	public Object getBuilding(@RequestParam HashMap<String,String> building,
+	public Object getBuilding(@RequestParam HashMap<String,Object> building,
 								@RequestParam(value="typecode",required = false) ArrayList<String> type) {
 		ArrayList<BuildingDTO> result = buildingService.findAll(building,type);
 		return result;

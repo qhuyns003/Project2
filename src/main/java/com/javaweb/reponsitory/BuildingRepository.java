@@ -7,5 +7,5 @@ import com.javaweb.model.SearchingDTO;
 import com.javaweb.reponsitory.entity.BuildingEntity;
 
 public interface BuildingRepository {
-	ArrayList<BuildingEntity> findAll(HashMap<String,String> building,ArrayList<String> type);
+	ArrayList<BuildingEntity> findAll(HashMap<String,Object> building,ArrayList<String> type);
 }
