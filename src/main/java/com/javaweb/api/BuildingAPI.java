@@ -34,16 +34,7 @@ public class BuildingAPI {
 //		
 //	}
 
-	
-//	@GetMapping(value="/api/building/")
-//	public void getBuilding(@RequestParam(value="name",required=false) String name,
-//			@RequestParam(value="numberOfBasement",required=false) Integer numberOfBasement,
-//			@RequestParam(value="ward",required=false) String ward,
-//			@RequestParam(value="street",required=false) String street
-//							  ){
-//		System.out.println("this is from params: "+name+" "+street);
-//		
-//	}
+
 
 	
 	
