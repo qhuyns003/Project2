@@ -1,5 +1,6 @@
 package com.javaweb.reponsitory.impl;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
+import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.model.SearchingDTO;
 import com.javaweb.reponsitory.BuildingRepository;
 import com.javaweb.reponsitory.entity.BuildingEntity;
@@ -22,70 +24,80 @@ import com.javaweb.utils.StringUtil;
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository{
 	
-	public static void joinTable(HashMap<String,Object> building,ArrayList<String> type,StringBuilder sql) {
-		if(StringUtil.checkString((String)building.get("staffid"))) {
+	public static void joinTable(BuildingSearchBuilder buildingSearchBuilder,StringBuilder sql) {
+		if(buildingSearchBuilder.getStaffid() != null) {
 			sql.append(" inner join assignmentbuilding on building.id = assignmentbuilding.buildingid  ");
 		};
-		if(StringUtil.checkString((String)building.get("districtid"))) {
+		if(buildingSearchBuilder.getDistrictid() != null) {
 			sql.append(" inner join district on building.districtid = district.id ");
 		};
-		if(StringUtil.checkString((String)building.get("areaFrom")) || StringUtil.checkString((String)building.get("areaTo"))) {
+		if(buildingSearchBuilder.getAreaTo() != null || buildingSearchBuilder.getAreaFrom() != null ) {
 			sql.append(" inner join rentarea on rentarea.buildingid=building.id  ");
 		};
-		if(type != null || (type != null && type.size() ==0 )) {
+		if(buildingSearchBuilder.getTypecode() != null) {
 			sql.append(" inner join buildingrenttype on building.id = buildingrenttype.buildingid ");
 			sql.append(" inner join renttype on renttype.id = buildingrenttype.renttypeid ");
 		};
 		
 	};
-	public static void querryNormal(HashMap<String,Object> building,ArrayList<String> type,StringBuilder sql) {
-		for(Map.Entry<String, Object > it : building.entrySet()) {
-			if( !it.getKey().equals("staffid") &&!it.getKey().equals("typecode") &&!it.getKey().startsWith("area")
-					&&!it.getKey().startsWith("price")) {
-				if(StringUtil.checkString((String)it.getValue())) {
-					if(NumberUtil.checkNumber(it.getKey())) {
-						sql.append(" and building."+it.getKey()+" = "+it.getValue());
-					}
-					else {
-						sql.append(" and building."+it.getKey()+" like '%"+it.getValue()+"%' ");
+	public static void querryNormal(BuildingSearchBuilder buildingSearchBuilder,StringBuilder sql) {
+		try {
+			Field[] field = BuildingSearchBuilder.class.getDeclaredFields();
+			for(Field item : field) {
+				item.setAccessible(true);
+				String fieldName = item.getName();
+				if( !fieldName.equals("staffid") &&!fieldName.equals("typecode") &&!fieldName.startsWith("area")
+						&&!fieldName.startsWith("price")) {
+					Object value = item.get(buildingSearchBuilder);
+				
+					if(value!=null){
+					if(item.getType().getName().equals("java.lang.Long") || item.getType().getName().equals("java.lang.Integer")) {
+							sql.append(" and building."+fieldName+" = "+value);
+						}
+					else if(item.getType().getName().equals("java.lang.String")) {
+							sql.append(" and building."+fieldName+" like '%"+value+"%' ");
+						};
 					};
-				};
+				}
 			}
 		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		};
 	};
 	
-	public static void querrySpecial(HashMap<String,Object> building,ArrayList<String> type,StringBuilder sql) {
-		if(StringUtil.checkString((String)building.get("staffid"))) {
-			sql.append(" and assignment.staffid = "+building.get("staffid"));
+	public static void querrySpecial(BuildingSearchBuilder buildingSearchBuilder,StringBuilder sql) {
+		if(buildingSearchBuilder.getStaffid() != null) {
+			sql.append(" and assignmentcustomer.staffid = "+buildingSearchBuilder.getStaffid());
 		};
-		if(StringUtil.checkString((String)building.get("priceFrom"))) {
-			sql.append(" and building.price >= "+building.get("priceFrom"));
+		if(buildingSearchBuilder.getPriceFrom() != null) {
+			sql.append(" and building.rentprice >= "+buildingSearchBuilder.getPriceFrom());
 		};
-		if(StringUtil.checkString((String)building.get("priceTo"))) {
-			sql.append(" and building.price <= "+building.get("priceTo"));
+		if(buildingSearchBuilder.getPriceTo() != null) {
+			sql.append(" and building.rentprice <= "+buildingSearchBuilder.getPriceTo());
 		};
-		if(StringUtil.checkString((String)building.get("areaFrom"))) {
-			sql.append(" and rentarea.value >= "+building.get("areaFrom"));
+		if(buildingSearchBuilder.getAreaFrom() != null) {
+			sql.append(" and rentarea.value >= "+buildingSearchBuilder.getAreaFrom());
 		};
-		if(StringUtil.checkString((String)building.get("areaTo"))) {
-			sql.append(" and rentarea.value <= "+building.get("areaTo"));
+		if(buildingSearchBuilder.getAreaTo() != null) {
+			sql.append(" and rentarea.value <= "+buildingSearchBuilder.getAreaTo());
 		};
-		if(type != null && type.size()!=0) {
+		if(buildingSearchBuilder.getTypecode() != null) {
 			sql.append(" and ( ");
-			sql.append(type.stream().map(it -> " renttype.code like '%" + it + "%' ").collect(Collectors.joining(" or ")));
+			sql.append(buildingSearchBuilder.getTypecode().stream().map(it -> " renttype.code like '%" + it + "%' ").collect(Collectors.joining(" or ")));
 			sql.append(" ) ");
 		};
 		
 	}
 	@Override
-	public ArrayList<BuildingEntity> findAll(HashMap<String,Object> building,ArrayList<String> type) {
+	public ArrayList<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
 		StringBuilder sql = new StringBuilder("select building.id,building.name,building.districtid, building.ward, building.street, building.numberofbasement, building.managername, building.managerphonenumber, building.floorarea, building.rentprice, building.servicefee,building.brokeragefee from building ");
 		
 		ArrayList<BuildingEntity> result = new ArrayList<>();
-		joinTable(building,type,sql);
+		joinTable(buildingSearchBuilder,sql);
 		sql.append(" where 1=1 ");
-		querryNormal(building,type,sql);
-		querrySpecial(building,type,sql);
+		querryNormal(buildingSearchBuilder,sql);
+		querrySpecial(buildingSearchBuilder,sql);
 		sql.append(" group by building.id ");
 		
 		try(Connection conn =  ConnectionJDBCUtil.getConnection();

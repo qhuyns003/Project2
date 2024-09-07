@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javaweb.Convertor.BuildingConvertor;
+import com.javaweb.Convertor.BuildingSearchBuilderConvertor;
+import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.model.BuildingDTO;
 import com.javaweb.model.SearchingDTO;
 import com.javaweb.reponsitory.BuildingRepository;
@@ -28,9 +30,12 @@ public class BuildingServiceImpl implements BuildingService {
 //	private RentAreaRepository rentAreaRepository;
 	@Autowired
 	private BuildingConvertor buildingConvertor;
+	@Autowired
+	private BuildingSearchBuilderConvertor buildingSearchBuilderConvertor;
 	@Override
 	public ArrayList<BuildingDTO> findAll(HashMap<String,Object> building,ArrayList<String> type) {
-		ArrayList<BuildingEntity> buildingEntities = buildingRepository.findAll(building,type);
+		BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConvertor.toBuildingSearchBuilder(building, type);
+		ArrayList<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearchBuilder);
 		ArrayList<BuildingDTO> result = new ArrayList<>();
 		for(BuildingEntity item : buildingEntities) {
 			BuildingDTO bd = buildingConvertor.buildingConvertor(item);
