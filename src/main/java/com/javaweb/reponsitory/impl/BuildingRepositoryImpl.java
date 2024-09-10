@@ -8,9 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.javaweb.builder.BuildingSearchBuilder;
@@ -22,7 +28,11 @@ import com.javaweb.utils.NumberUtil;
 import com.javaweb.utils.StringUtil;
 
 @Repository
+@Primary
 public class BuildingRepositoryImpl implements BuildingRepository{
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	public static void joinTable(BuildingSearchBuilder buildingSearchBuilder,StringBuilder sql) {
 		if(buildingSearchBuilder.getStaffid() != null) {
@@ -90,40 +100,18 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 		
 	}
 	@Override
-	public ArrayList<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
+	public List<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
 		StringBuilder sql = new StringBuilder("select building.id,building.name,building.districtid, building.ward, building.street, building.numberofbasement, building.managername, building.managerphonenumber, building.floorarea, building.rentprice, building.servicefee,building.brokeragefee from building ");
 		
-		ArrayList<BuildingEntity> result = new ArrayList<>();
 		joinTable(buildingSearchBuilder,sql);
 		sql.append(" where 1=1 ");
 		querryNormal(buildingSearchBuilder,sql);
 		querrySpecial(buildingSearchBuilder,sql);
 		sql.append(" group by building.id ");
 		
-		try(Connection conn =  ConnectionJDBCUtil.getConnection();
-				Statement stm =conn.createStatement();
-				ResultSet rs =stm.executeQuery(sql.toString())){
-			
-			while(rs.next()) {
-				BuildingEntity entity= new BuildingEntity();
-				entity.setId(rs.getLong("building.id"));
-				entity.setBrokeragefee(rs.getLong("building.brokeragefee"));
-				entity.setDistrictid(rs.getLong("building.districtid"));
-				entity.setFloorarea(rs.getLong("floorarea"));
-				entity.setName(rs.getString("building.name"));
-				entity.setManagername(rs.getString("managername"));
-				entity.setManagerphonenumber(rs.getString("managerphonenumber"));
-				entity.setNumberofbasement(rs.getLong("numberofbasement"));
-				entity.setRentprice(rs.getLong("rentprice"));
-				entity.setServicefee(rs.getLong("servicefee"));
-				entity.setStreet(rs.getString("street"));
-				entity.setWard(rs.getString("ward"));
-				result.add(entity);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
+		Query query = entityManager.createNativeQuery(sql.toString(),BuildingEntity.class);
+	
+		return query.getResultList();
 	}
 
 	

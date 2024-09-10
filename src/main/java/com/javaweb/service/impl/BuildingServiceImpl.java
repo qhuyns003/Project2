@@ -2,6 +2,7 @@ package com.javaweb.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,15 @@ import com.javaweb.service.BuildingService;
 public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private BuildingRepository buildingRepository;
-//	@Autowired
-//	private DistrictRepository districtRepository;
-//	@Autowired
-//	private RentAreaRepository rentAreaRepository;
 	@Autowired
 	private BuildingConvertor buildingConvertor;
 	@Autowired
 	private BuildingSearchBuilderConvertor buildingSearchBuilderConvertor;
 	@Override
-	public ArrayList<BuildingDTO> findAll(HashMap<String,Object> building,ArrayList<String> type) {
+	public List<BuildingDTO> findAll(HashMap<String,Object> building,List<String> type) {
 		BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConvertor.toBuildingSearchBuilder(building, type);
-		ArrayList<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearchBuilder);
-		ArrayList<BuildingDTO> result = new ArrayList<>();
+		List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearchBuilder);
+		List<BuildingDTO> result = new ArrayList<>();
 		for(BuildingEntity item : buildingEntities) {
 			BuildingDTO bd = buildingConvertor.buildingConvertor(item);
 			result.add(bd);

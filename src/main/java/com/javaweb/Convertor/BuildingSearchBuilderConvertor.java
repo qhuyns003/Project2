@@ -2,6 +2,7 @@ package com.javaweb.Convertor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import com.javaweb.utils.MapUtil;
 
 @Component
 public class BuildingSearchBuilderConvertor {
-	public static BuildingSearchBuilder toBuildingSearchBuilder(HashMap<String,Object> building,ArrayList<String> type) {
+	public static BuildingSearchBuilder toBuildingSearchBuilder(HashMap<String,Object> building,List<String> type) {
 		BuildingSearchBuilder buidingSearchBuilder = new BuildingSearchBuilder.Builder()
 																	.setName(MapUtil.getObject(building, "name", String.class))
 																	.setFloorarea(MapUtil.getObject(building, "floorarea", Long.class)) 

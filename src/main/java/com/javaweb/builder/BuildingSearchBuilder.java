@@ -1,6 +1,7 @@
 package com.javaweb.builder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BuildingSearchBuilder {
 
@@ -10,7 +11,7 @@ public class BuildingSearchBuilder {
 	private String street;
 	private String districtid;
 	private Integer numberofbasement;
-	private ArrayList<String> typecode = new ArrayList<>();
+	private List<String> typecode = new ArrayList<>();
 	private String managername;
 	private String managerphonenumber;
 	private Long priceFrom;
@@ -60,7 +61,7 @@ public class BuildingSearchBuilder {
 		return numberofbasement;
 	}
 
-	public ArrayList<String> getTypecode() {
+	public List<String> getTypecode() {
 		return typecode;
 	}
 
@@ -99,7 +100,7 @@ public class BuildingSearchBuilder {
 		private String street;
 		private String districtid;
 		private Integer numberofbasement;
-		private ArrayList<String> typecode = new ArrayList<>();
+		private List<String> typecode = new ArrayList<>();
 		private String managername;
 		private String managerphonenumber;
 		private Long priceFrom;
@@ -138,7 +139,7 @@ public class BuildingSearchBuilder {
 			return this;
 		}
 
-		public Builder setTypecode(ArrayList<String> typecode) {
+		public Builder setTypecode(List<String> typecode) {
 			this.typecode = typecode;
 			return this;
 		}
