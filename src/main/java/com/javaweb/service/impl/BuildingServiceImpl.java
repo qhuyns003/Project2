@@ -11,7 +11,6 @@ import com.javaweb.Convertor.BuildingConvertor;
 import com.javaweb.Convertor.BuildingSearchBuilderConvertor;
 import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.model.BuildingDTO;
-import com.javaweb.model.SearchingDTO;
 import com.javaweb.reponsitory.BuildingRepository;
 import com.javaweb.reponsitory.DistrictRepository;
 import com.javaweb.reponsitory.RentAreaRepository;

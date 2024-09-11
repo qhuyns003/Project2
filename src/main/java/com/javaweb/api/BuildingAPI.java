@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.javaweb.customException.FieldRequiredException;
 import com.javaweb.model.BuildingDTO;
 import com.javaweb.model.ErrorResponseDTO;
-import com.javaweb.model.SearchingDTO;
 import com.javaweb.service.BuildingService;
 
 @RestController
