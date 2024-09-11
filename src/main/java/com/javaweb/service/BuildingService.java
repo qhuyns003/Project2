@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.javaweb.model.BuildingAddDTO;
 import com.javaweb.model.BuildingDTO;
-import com.javaweb.model.SearchingDTO;
 
 public interface BuildingService {
 	List<BuildingDTO> findAll(HashMap<String,Object> building,List<String> type);
+	List<BuildingDTO> findByName(String name);
+	void addBuilding(BuildingAddDTO buildingAddDTO);
 }

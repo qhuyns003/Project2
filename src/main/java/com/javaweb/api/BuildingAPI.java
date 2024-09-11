@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.javaweb.customException.FieldRequiredException;
 import com.javaweb.model.BuildingDTO;
-import com.javaweb.model.BuildingRequestDTO;
+import com.javaweb.model.BuildingAddDTO;
 import com.javaweb.model.ErrorResponseDTO;
-import com.javaweb.model.SearchingDTO;
 import com.javaweb.reponsitory.entity.BuildingEntity;
 import com.javaweb.service.BuildingService;
 
@@ -42,12 +41,18 @@ public class BuildingAPI {
 		return result;
 	}
 	
+	@GetMapping(value = "/api/building/{name}")
+	public Object getBuilding(@PathVariable String name) {
+		List<BuildingDTO> result = buildingService.findByName(name);
+		return result;
+	}
+	
 	@PostMapping(value = "/api/building/")
 	@Transactional
-	public void createBuilding(@RequestBody BuildingRequestDTO buildingRequestDTO) {
-		BuildingEntity buildingEntity = modelMapper.map(buildingRequestDTO,BuildingEntity.class);
-		entityManager.persist(buildingEntity);
+	public void createBuilding(@RequestBody BuildingAddDTO buildingAddDTO) {
+		buildingService.addBuilding(buildingAddDTO);
 	}
+	
 	
 	
 //	public void validData(BuildingDTO building) {

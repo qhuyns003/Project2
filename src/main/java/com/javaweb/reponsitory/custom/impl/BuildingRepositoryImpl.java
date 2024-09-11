@@ -1,4 +1,4 @@
-package com.javaweb.reponsitory.impl;
+package com.javaweb.reponsitory.custom.impl;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.javaweb.builder.BuildingSearchBuilder;
-import com.javaweb.model.SearchingDTO;
 import com.javaweb.reponsitory.BuildingRepository;
+import com.javaweb.reponsitory.custom.BuildingRepositoryCustom;
 import com.javaweb.reponsitory.entity.BuildingEntity;
 import com.javaweb.utils.ConnectionJDBCUtil;
 import com.javaweb.utils.NumberUtil;
@@ -29,7 +29,7 @@ import com.javaweb.utils.StringUtil;
 
 @Repository
 @Primary
-public class BuildingRepositoryImpl implements BuildingRepository{
+public class BuildingRepositoryImpl implements BuildingRepositoryCustom{
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -101,7 +101,7 @@ public class BuildingRepositoryImpl implements BuildingRepository{
 	}
 	@Override
 	public List<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
-		StringBuilder sql = new StringBuilder("select building.id,building.name,building.districtid, building.ward, building.street, building.numberofbasement, building.managername, building.managerphonenumber, building.floorarea, building.rentprice, building.servicefee,building.brokeragefee from building ");
+		StringBuilder sql = new StringBuilder("select * from building ");
 		
 		joinTable(buildingSearchBuilder,sql);
 		sql.append(" where 1=1 ");

@@ -19,10 +19,6 @@ import com.javaweb.reponsitory.entity.RentAreaEntity;
 @Component
 public class BuildingConvertor {
 	@Autowired
-	private DistrictRepository districtRepository;
-	@Autowired
-	private RentAreaRepository rentAreaRepository;
-	@Autowired
 	private ModelMapper modelMapper;
 	
 	public BuildingDTO buildingConvertor(BuildingEntity item){
